@@ -1,29 +1,41 @@
-import './App.css';
-import ProductTile from '../ProductTile/ProductTile';
-import { useEffect, useState } from 'react';
+import "./App.css";
+import ProductTile from "../ProductTile/ProductTile";
+import { useEffect, useState } from "react";
 
 function App() {
-	const [ data, setData ] = useState();
+  const [data, setData] = useState();
 
-	//Why is this firing twice? Can we makea conditional rendor so it doesn't?
+  //Why is this firing twice? Can we makea conditional rendor so it doesn't?
 
-	useEffect(() => {
-		async function getData() {
-			let response = await fetch('https://fakestoreapi.com/products');
-			let dataResponse = await response.json();
-			setData(dataResponse);
-			// console.log('dataResponse', dataResponse);
-		}
-		getData();
-	}, []);
+  useEffect(() => {
+    async function getData() {
+      let response = await fetch("https://fakestoreapi.com/products");
+      let dataResponse = await response.json();
+      setData(dataResponse);
+      // console.log('dataResponse', dataResponse);
+    }
+    getData();
+  }, []);
 
-	console.log('data', data);
+  console.log("data", data);
 
-	return (
-		<div className="App">
-			<h3>Funky-Fit</h3>
-		</div>
-	);
+  return (
+    <div className="App">
+      <h3>Funky-Fit</h3>
+      {data
+        ? data.map((item) => {
+            return (
+              <ProductTile
+                key={item.id}
+                image={item.image}
+                title={item.title}
+                price={item.price}
+              />
+            );
+          })
+        : null}
+    </div>
+  );
 }
 
 export default App;
