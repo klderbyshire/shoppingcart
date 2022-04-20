@@ -1,9 +1,11 @@
 import "./App.css";
 import ProductTile from "../ProductTile/ProductTile";
 import { useEffect, useState } from "react";
+import Drawer from "@mui/material/Drawer";
 
 function App() {
   const [data, setData] = useState();
+  const [cart, setCart] = useState();
 
   //Why is this firing twice? Can we makea conditional rendor so it doesn't?
 
@@ -22,18 +24,24 @@ function App() {
   return (
     <div className="App">
       <h3>Funky-Fit</h3>
-      {data
-        ? data.map((item) => {
-            return (
-              <ProductTile
-                key={item.id}
-                image={item.image}
-                title={item.title}
-                price={item.price}
-              />
-            );
-          })
-        : null}
+      <Drawer anchor="right" open={cart} onClose={() => setCart(false)}>
+        Your Shopping Cart!
+      </Drawer>
+      <button onClick={() => setCart(true)}>Open cart</button>
+      <div className="product-display">
+        {data
+          ? data.map((item) => {
+              return (
+                <ProductTile
+                  key={item.id}
+                  image={item.image}
+                  title={item.title}
+                  price={item.price}
+                />
+              );
+            })
+          : null}
+      </div>
     </div>
   );
 }
